@@ -84,9 +84,16 @@ def check_findings(review, blocks):
         if not f.evidence or not f.question.strip() or not f.scenario.strip():
             raise ValueError("Отсутствует основание, сценарий или вопрос.")
         for c in f.evidence:
+            if c.block not in source:
+                raise ValueError(f"Неизвестный блок {c.block}.")
             quote = normalize(c.quote)
-            if not quote or quote not in source.get(c.block, ""):
-                raise ValueError(f"Цитата не совпадает с текстом блока {c.block}.")
+            if not quote or quote not in source[c.block]:
+                # The reference selects a source block. Never publish a model paraphrase as a quote.
+                matches = [bid for bid, original in source.items() if quote and quote in original]
+                if len(matches) == 1:
+                    c.block = matches[0]
+                else:
+                    c.quote = next(b.text for b in blocks if b.id == c.block)
         if f.kind == "contradiction" and (
             len({(c.block, normalize(c.quote)) for c in f.evidence}) < 2
             or len({normalize(o) for o in f.outcomes if o.strip()}) < 2

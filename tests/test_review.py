@@ -71,9 +71,9 @@ def test_rejects_false_evidence():
     f = Finding(title="t",scope="set",kind="contradiction",severity="blocker",impact="both",
                 criterion="c",evidence=[Citation(block=blocks[0].id,quote="fabricated")],
                 scenario="s",outcomes=["x","y"],consequence="c",owner="o",question="q")
-    with pytest.raises(ValueError, match="Цитата"):
+    with pytest.raises(ValueError, match="двух"):
         check_findings(Findings(findings=[f]), blocks)
-    f.evidence[0].quote = blocks[0].text
+    assert f.evidence[0].quote == blocks[0].text
     with pytest.raises(ValueError, match="двух"):
         check_findings(Findings(findings=[f]), blocks)
 
