@@ -107,3 +107,20 @@ def test_pipeline_without_network(monkeypatch, tmp_path):
     assert "Реестр" in out.read_text() and "R001" in out.read_text()
     assert json.loads(audit.read_text())["passport"]["model"] == "test"
 
+
+
+def test_missing_inventory_block_is_visible():
+    blocks = read_blocks(Path("evals/development/transfers-a.md"))
+    inv = Inventory(entries=[Entry(block=blocks[0].id, role="template", claims=[])])
+    check_inventory(inv, blocks)
+    assert [e.block for e in inv.entries] == [b.id for b in blocks]
+    assert [e.role for e in inv.entries[1:]] == ["unresolved"] * (len(blocks) - 1)
+
+
+def test_input_cannot_be_used_as_report(tmp_path, monkeypatch):
+    path = tmp_path / "case.md"
+    path.write_text("Исходное требование")
+    monkeypatch.setattr("sys.argv", ["validator", "review", str(path), "--out", str(path)])
+    with pytest.raises(SystemExit):
+        cli.main()
+    assert path.read_text() == "Исходное требование"

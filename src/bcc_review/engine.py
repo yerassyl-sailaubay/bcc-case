@@ -1,6 +1,6 @@
 import json
 import os
-from dataclasses import asdict
+from dataclasses import asdict, replace
 
 from openai import OpenAI
 from pydantic import ValidationError
@@ -120,15 +120,19 @@ def analyze(blocks, reviewer, baseline=False):
     inv = Inventory(entries=[])
     for start in range(0, len(blocks), 18):
         batch = blocks[start:start + 18]
-        part = reviewer.ask(Inventory, EXTRACT, source[start:start + 18],
-                            lambda result: check_inventory(result, batch))
+        # Use local addresses for extraction, then translate back to document addresses.
+        # Some models restart numbering at one even when a batch starts mid-document.
+        local = [replace(block, id=f"B{i:04}") for i, block in enumerate(batch, 1)]
+        part = reviewer.ask(Inventory, EXTRACT, [asdict(block) for block in local],
+                            lambda result: check_inventory(result, local))
         for i, entry in enumerate(part.entries):
             if entry.role == "unresolved":
-                block = batch[i]
-                retry = reviewer.ask(Inventory, EXTRACT, [asdict(block)],
-                                     lambda result: check_inventory(result, [block]))
-                part.entries[i] = retry.entries[0]
-        inv.entries.extend(part.entries)
+                one = replace(local[i], id="B0001")
+                retry = reviewer.ask(Inventory, EXTRACT, [asdict(one)],
+                                     lambda result: check_inventory(result, [one]))
+                entry = retry.entries[0]
+            entry.block = batch[i].id
+            inv.entries.append(entry)
     data = {"source": source, "inventory": inv.model_dump()}
     candidates = reviewer.ask(Findings, COMPARE, data, lambda result: check_findings(result, blocks))
     data["candidates"] = candidates.model_dump()

@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import random
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from uuid import uuid4
 
 from dotenv import load_dotenv
@@ -66,7 +66,17 @@ def main():
         print(f"Готово: {name}", flush=True)
 
     with ThreadPoolExecutor(max_workers=3) as executor:
-        list(executor.map(execute, jobs))
+        futures = {executor.submit(execute, job): job for job in jobs}
+        failures = []
+        for future in as_completed(futures):
+            try:
+                future.result()
+            except Exception as exc:
+                path, method, trial = futures[future]
+                failures.append(dict(file=str(path), method=method, trial=trial + 1, error=type(exc).__name__))
+        write_atomic(folder / "failures.json", json.dumps(failures, indent=2))
+        if failures:
+            raise SystemExit(f"Незавершённых испытаний: {len(failures)}")
 
 
 if __name__ == "__main__":
