@@ -5,7 +5,7 @@ from dataclasses import asdict
 from openai import OpenAI
 from pydantic import ValidationError
 
-from .schema import Baseline, Findings, Inventory
+from .schema import Baseline, Entry, Findings, Inventory
 from .source import normalize
 
 
@@ -67,15 +67,22 @@ class Reviewer:
 
 
 def check_inventory(inv, blocks):
+    if not inv.entries:
+        raise ValueError("Пустой реестр блоков.")
     order = {b.id: i for i, b in enumerate(blocks)}
-    inv.entries.sort(key=lambda e: order.get(e.block, len(order)))
-    if [e.block for e in inv.entries] != list(order):
-        raise ValueError("Верни все переданные блоки ровно один раз в исходном порядке.")
-    for e in inv.entries:
-        if e.claims:
-            e.role = "requirement"
-        elif e.role == "requirement":
-            e.role = "unresolved"
+    aligned = {}
+    for entry in inv.entries:
+        if entry.block not in order:
+            continue
+        current = aligned.setdefault(entry.block, entry)
+        if current is not entry:
+            known = {claim.statement for claim in current.claims}
+            current.claims.extend(claim for claim in entry.claims if claim.statement not in known)
+        if current.claims:
+            current.role = "requirement"
+        elif current.role == "requirement":
+            current.role = "unresolved"
+    inv.entries = [aligned.get(b.id) or Entry(block=b.id, role="unresolved", claims=[]) for b in blocks]
 
 
 def check_findings(review, blocks):
@@ -115,6 +122,12 @@ def analyze(blocks, reviewer, baseline=False):
         batch = blocks[start:start + 18]
         part = reviewer.ask(Inventory, EXTRACT, source[start:start + 18],
                             lambda result: check_inventory(result, batch))
+        for i, entry in enumerate(part.entries):
+            if entry.role == "unresolved":
+                block = batch[i]
+                retry = reviewer.ask(Inventory, EXTRACT, [asdict(block)],
+                                     lambda result: check_inventory(result, [block]))
+                part.entries[i] = retry.entries[0]
         inv.entries.extend(part.entries)
     data = {"source": source, "inventory": inv.model_dump()}
     candidates = reviewer.ask(Findings, COMPARE, data, lambda result: check_findings(result, blocks))
