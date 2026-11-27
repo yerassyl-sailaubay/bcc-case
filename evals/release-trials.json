@@ -1,0 +1,1351 @@
+[
+  {
+    "id": "ac5f66489b",
+    "file": "evals/holdout/access-a.md",
+    "sha256": "a2645d475cfd1816e5ac8b7efa1903e90681e96db59eef1e906b3cd2d5e57a32",
+    "method": "agent",
+    "repeat": 1,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 21.3,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 501,
+        "output": 792
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1207,
+        "output": 1548
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1642,
+        "output": 319
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "188273fe02",
+    "file": "evals/holdout/access-a.md",
+    "sha256": "a2645d475cfd1816e5ac8b7efa1903e90681e96db59eef1e906b3cd2d5e57a32",
+    "method": "agent",
+    "repeat": 2,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 12.74,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 501,
+        "output": 579
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1168,
+        "output": 326
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1271,
+        "output": 273
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "3c8850e40b",
+    "file": "evals/holdout/access-a.md",
+    "sha256": "a2645d475cfd1816e5ac8b7efa1903e90681e96db59eef1e906b3cd2d5e57a32",
+    "method": "agent",
+    "repeat": 3,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 12.36,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 501,
+        "output": 450
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1187,
+        "output": 478
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1290,
+        "output": 415
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "09b1479eef",
+    "file": "evals/holdout/access-a.md",
+    "sha256": "a2645d475cfd1816e5ac8b7efa1903e90681e96db59eef1e906b3cd2d5e57a32",
+    "method": "baseline",
+    "repeat": 1,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 7.46,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1078,
+        "output": 906
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "389e89fc29",
+    "file": "evals/holdout/access-a.md",
+    "sha256": "a2645d475cfd1816e5ac8b7efa1903e90681e96db59eef1e906b3cd2d5e57a32",
+    "method": "baseline",
+    "repeat": 2,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 9.87,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1078,
+        "output": 1110
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "0514714e0d",
+    "file": "evals/holdout/access-a.md",
+    "sha256": "a2645d475cfd1816e5ac8b7efa1903e90681e96db59eef1e906b3cd2d5e57a32",
+    "method": "baseline",
+    "repeat": 3,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 5.22,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1078,
+        "output": 644
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "ae39203658",
+    "file": "evals/holdout/access-b.md",
+    "sha256": "b1194a0adf087999b5d2b3f4ce9b9eec3112054de550d7638269a59cf2a7d26d",
+    "method": "agent",
+    "repeat": 1,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 13.07,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 501,
+        "output": 615
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1198,
+        "output": 516
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1541,
+        "output": 425
+      }
+    ],
+    "findings": [
+      {
+        "title": "Противоречие в доступе аудитора к истории чужой заявки своего подразделения",
+        "scope": "set",
+        "kind": "contradiction",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Для одного сценария требование и пример должны задавать совместимый наблюдаемый исход.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Аудитор может читать историю любой заявки своего подразделения."
+          },
+          {
+            "block": "B0002",
+            "quote": "Аудитор открывает историю чужой заявки своего подразделения и получает отказ."
+          }
+        ],
+        "scenario": "Аудитор открывает историю чужой заявки, относящейся к его подразделению.",
+        "outcomes": [
+          "По B0001 аудитор может прочитать историю.",
+          "По B0002 аудитор получает отказ."
+        ],
+        "consequence": "Нельзя однозначно выбрать поведение при реализации и определить ожидаемый результат проверки этого сценария.",
+        "owner": "Владелец требований или продукта",
+        "question": "Какой исход должен применяться, когда аудитор открывает историю чужой заявки своего подразделения?"
+      }
+    ]
+  },
+  {
+    "id": "07ce65fbc1",
+    "file": "evals/holdout/access-b.md",
+    "sha256": "b1194a0adf087999b5d2b3f4ce9b9eec3112054de550d7638269a59cf2a7d26d",
+    "method": "agent",
+    "repeat": 2,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 25.76,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 501,
+        "output": 1053
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1191,
+        "output": 1448
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1829,
+        "output": 1108
+      }
+    ],
+    "findings": [
+      {
+        "title": "Противоречивый результат доступа аудитора к истории заявки своего подразделения",
+        "scope": "set",
+        "kind": "contradiction",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Для одного и того же сценария требования должны задавать совместимый наблюдаемый результат.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Аудитор может читать историю любой заявки своего подразделения."
+          },
+          {
+            "block": "B0002",
+            "quote": "Аудитор открывает историю чужой заявки своего подразделения и получает отказ."
+          }
+        ],
+        "scenario": "Аудитор пытается открыть историю чужой заявки своего подразделения.",
+        "outcomes": [
+          "По B0001 аудитор может прочитать историю.",
+          "По B0002 аудитор получает отказ.Результат"
+        ],
+        "consequence": "Нельзя выбрать ожидаемое поведение при реализации и однозначно проверить доступ аудитора.",
+        "owner": "Владелец требований к доступу",
+        "question": "Какой результат должен получить аудитор при открытии истории чужой заявки своего подразделения?"
+      },
+      {
+        "title": "Не определено, как устанавливаются принадлежность заявки сотруднику и подразделение заявки",
+        "scope": "set",
+        "kind": "ambiguity",
+        "severity": "major",
+        "impact": "both",
+        "criterion": "Условия доступа должны позволять однозначно определить, к какой категории относится заявка.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "история чужой заявки"
+          },
+          {
+            "block": "B0001",
+            "quote": "заявки своего подразделения"
+          }
+        ],
+        "scenario": "При проверке доступа система должна определить, является ли заявка чужой для сотрудника и относится ли она к подразделению аудитора.",
+        "outcomes": [
+          "При одном определении принадлежности заявка считается чужой и относится к подразделению аудитора.",
+          "При другом определении та же заявка может не считаться чужой или относиться к другому подразделению."
+        ],
+        "consequence": "Без определения этих связей нельзя однозначно реализовать классификацию заявок или задать ожидаемый результат тестов на границах категорий.",
+        "owner": "Владелец требований к доступу",
+        "question": "По каким данным и правилам устанавливаются принадлежность заявки сотруднику и подразделение, к которому она относится?"
+      }
+    ]
+  },
+  {
+    "id": "cb9003a5c1",
+    "file": "evals/holdout/access-b.md",
+    "sha256": "b1194a0adf087999b5d2b3f4ce9b9eec3112054de550d7638269a59cf2a7d26d",
+    "method": "agent",
+    "repeat": 3,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 18.96,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 501,
+        "output": 545
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1198,
+        "output": 790
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1546,
+        "output": 669
+      }
+    ],
+    "findings": [
+      {
+        "title": "Противоречивые исходы для аудитора при просмотре истории заявки своего подразделения",
+        "scope": "set",
+        "kind": "contradiction",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Для одного и того же сценария требования должны задавать совместимый и однозначно проверяемый исход.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Аудитор может читать историю любой заявки своего подразделения."
+          },
+          {
+            "block": "B0002",
+            "quote": "Аудитор открывает историю чужой заявки своего подразделения и получает отказ."
+          }
+        ],
+        "scenario": "Аудитор запрашивает историю чужой заявки, относящейся к его подразделению.",
+        "outcomes": [
+          "По B0001 аудитор может читать историю заявки.",
+          "По B0002 аудитор получает отказ."
+        ],
+        "consequence": "Нельзя однозначно выбрать поведение для реализации и ожидаемый результат теста доступа аудитора.",
+        "owner": "Владелец требований к доступу",
+        "question": "Какой исход должен быть установлен для аудитора в этом сценарии?"
+      }
+    ]
+  },
+  {
+    "id": "d2bfe5d0b8",
+    "file": "evals/holdout/access-b.md",
+    "sha256": "b1194a0adf087999b5d2b3f4ce9b9eec3112054de550d7638269a59cf2a7d26d",
+    "method": "baseline",
+    "repeat": 1,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 9.62,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1078,
+        "output": 1146
+      }
+    ],
+    "findings": [
+      {
+        "title": "Противоречие в доступе аудитора к истории заявки своего подразделения",
+        "scope": "set",
+        "kind": "contradiction",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Для одного и того же сценария требования должны задавать совместимый наблюдаемый результат.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Аудитор может читать историю любой заявки своего подразделения."
+          },
+          {
+            "block": "B0002",
+            "quote": "Аудитор открывает историю чужой заявки своего подразделения и получает отказ."
+          }
+        ],
+        "scenario": "Аудитор открывает историю чужой заявки, принадлежащей его подразделению.",
+        "outcomes": [
+          "Доступ разрешён: аудитор может читать историю заявки.",
+          "В доступе отказано."
+        ],
+        "consequence": "Нельзя однозначно реализовать проверку доступа или определить ожидаемый результат приёмочного теста.",
+        "owner": "Владелец требований к доступу.",
+        "question": "Какой результат должен получить аудитор при открытии истории чужой заявки своего подразделения?"
+      }
+    ]
+  },
+  {
+    "id": "fd827d9911",
+    "file": "evals/holdout/access-b.md",
+    "sha256": "b1194a0adf087999b5d2b3f4ce9b9eec3112054de550d7638269a59cf2a7d26d",
+    "method": "baseline",
+    "repeat": 2,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 6.74,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1078,
+        "output": 826
+      }
+    ],
+    "findings": [
+      {
+        "title": "Противоречие в доступе аудитора к истории чужой заявки своего подразделения",
+        "scope": "set",
+        "kind": "contradiction",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Для одной и той же роли и заявки требования должны задавать один наблюдаемый результат доступа.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Аудитор может читать историю любой заявки своего подразделения."
+          },
+          {
+            "block": "B0002",
+            "quote": "Аудитор открывает историю чужой заявки своего подразделения и получает отказ."
+          }
+        ],
+        "scenario": "Аудитор запрашивает историю чужой заявки, принадлежащей его подразделению.",
+        "outcomes": [
+          "Доступ разрешён, и история доступна для чтения.",
+          "В доступе отказано."
+        ],
+        "consequence": "Нельзя однозначно выбрать поведение для реализации и ожидаемый результат соответствующего теста.",
+        "owner": "Владелец требований доступа к истории заявок.",
+        "question": "Какой результат должен быть для аудитора при запросе истории чужой заявки своего подразделения?"
+      }
+    ]
+  },
+  {
+    "id": "86b094acf5",
+    "file": "evals/holdout/access-b.md",
+    "sha256": "b1194a0adf087999b5d2b3f4ce9b9eec3112054de550d7638269a59cf2a7d26d",
+    "method": "baseline",
+    "repeat": 3,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 11.1,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1078,
+        "output": 1035
+      }
+    ],
+    "findings": [
+      {
+        "title": "Противоречие в доступе аудитора к истории заявки своего подразделения",
+        "scope": "set",
+        "kind": "contradiction",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Требования к одному сценарию должны задавать совместимый наблюдаемый результат.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Аудитор может читать историю любой заявки своего подразделения."
+          },
+          {
+            "block": "B0002",
+            "quote": "Аудитор открывает историю чужой заявки своего подразделения и получает отказ."
+          }
+        ],
+        "scenario": "Аудитор открывает историю чужой заявки, принадлежащей его подразделению.",
+        "outcomes": [
+          "История доступна для чтения.",
+          "В доступе отказано."
+        ],
+        "consequence": "Нельзя однозначно выбрать реализацию проверки доступа и ожидаемый результат приёмочного теста для этого сценария.",
+        "owner": "Владелец требований к доступу",
+        "question": "Какой результат должен получать аудитор при открытии истории чужой заявки своего подразделения?"
+      }
+    ]
+  },
+  {
+    "id": "529e6aec26",
+    "file": "evals/holdout/parcel-a.md",
+    "sha256": "81040a6e868fb1a418f8488f456b741988b154f27caeb527af4ca20602da45b9",
+    "method": "agent",
+    "repeat": 1,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 12.01,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 507,
+        "output": 569
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1198,
+        "output": 411
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1301,
+        "output": 435
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "ff55cf14b4",
+    "file": "evals/holdout/parcel-a.md",
+    "sha256": "81040a6e868fb1a418f8488f456b741988b154f27caeb527af4ca20602da45b9",
+    "method": "agent",
+    "repeat": 2,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 13.29,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 507,
+        "output": 639
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1206,
+        "output": 595
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1309,
+        "output": 213
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "00ae80c354",
+    "file": "evals/holdout/parcel-a.md",
+    "sha256": "81040a6e868fb1a418f8488f456b741988b154f27caeb527af4ca20602da45b9",
+    "method": "agent",
+    "repeat": 3,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 10.52,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 507,
+        "output": 510
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1198,
+        "output": 318
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1301,
+        "output": 252
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "84f51af21a",
+    "file": "evals/holdout/parcel-a.md",
+    "sha256": "81040a6e868fb1a418f8488f456b741988b154f27caeb527af4ca20602da45b9",
+    "method": "baseline",
+    "repeat": 1,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 7.49,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1084,
+        "output": 819
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "2e20f2bb04",
+    "file": "evals/holdout/parcel-a.md",
+    "sha256": "81040a6e868fb1a418f8488f456b741988b154f27caeb527af4ca20602da45b9",
+    "method": "baseline",
+    "repeat": 2,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 6.25,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1084,
+        "output": 787
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "7b0410dd3e",
+    "file": "evals/holdout/parcel-a.md",
+    "sha256": "81040a6e868fb1a418f8488f456b741988b154f27caeb527af4ca20602da45b9",
+    "method": "baseline",
+    "repeat": 3,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 8.58,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1084,
+        "output": 942
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "74503269e2",
+    "file": "evals/holdout/parcel-b.md",
+    "sha256": "4c8a465748ea7940ac15fd00ab8ab56d1535e1025c9934e4d046890390a7c755",
+    "method": "agent",
+    "repeat": 1,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 29.68,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 495,
+        "output": 719
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1158,
+        "output": 1676
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1588,
+        "output": 1066
+      }
+    ],
+    "findings": [
+      {
+        "title": "Не определён момент истечения срока действия кода",
+        "scope": "set",
+        "kind": "omission",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Чтобы реализовать и проверить классификацию кода как действующего или истёкшего, необходимо определить момент истечения либо источник этого момента.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Начиная с момента истечения срока код отклоняется."
+          },
+          {
+            "block": "B0002",
+            "quote": "Для действующего кода система разрешает выдачу, для истёкшего показывает отказ."
+          }
+        ],
+        "scenario": "Посылка поступила в момент T; сотрудник вводит код в момент T+x. Текст требует определить исход, но не задаёт, когда именно наступает истечение срока.",
+        "outcomes": [
+          "Если момент истечения для этого кода позже T+x, система разрешает выдачу.",
+          "Если момент истечения наступил к T+x, система отказывает."
+        ],
+        "consequence": "Нельзя однозначно выбрать классификацию кода при вводе и ожидаемый результат соответствующего теста.",
+        "owner": "Владелец правил срока действия кода",
+        "question": "Как система определяет или получает момент истечения срока действия кода?"
+      }
+    ]
+  },
+  {
+    "id": "db31387477",
+    "file": "evals/holdout/parcel-b.md",
+    "sha256": "4c8a465748ea7940ac15fd00ab8ab56d1535e1025c9934e4d046890390a7c755",
+    "method": "agent",
+    "repeat": 2,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 17.19,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 495,
+        "output": 548
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1101,
+        "output": 777
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1478,
+        "output": 612
+      }
+    ],
+    "findings": [
+      {
+        "title": "Не определено, когда код считается истёкшим",
+        "scope": "set",
+        "kind": "ambiguity",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Условие действительности кода должно позволять однозначно определить исход выдачи для заданного кода и момента проверки.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Начиная с момента истечения срока код отклоняется."
+          },
+          {
+            "block": "B0002",
+            "quote": "Для действующего кода система разрешает выдачу, для истёкшего показывает отказ."
+          }
+        ],
+        "scenario": "Посылка поступила в момент t0, сотрудник вводит её код в момент t1. Текст не задаёт, как определить момент истечения срока, поэтому для этих моментов нельзя установить, действителен ли код.",
+        "outcomes": [
+          "Код считается действующим — система разрешает выдачу.",
+          "Код считается истёкшим — система показывает отказ."
+        ],
+        "consequence": "Нельзя выбрать правило определения срока действия или однозначно проверить исход выдачи для заданных t0 и t1.",
+        "owner": "Владелец правила срока действия кода",
+        "question": "Как определяется момент истечения срока кода относительно поступления посылки?"
+      }
+    ]
+  },
+  {
+    "id": "1645e66f53",
+    "file": "evals/holdout/parcel-b.md",
+    "sha256": "4c8a465748ea7940ac15fd00ab8ab56d1535e1025c9934e4d046890390a7c755",
+    "method": "agent",
+    "repeat": 3,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 20.46,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 495,
+        "output": 757
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1108,
+        "output": 958
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1514,
+        "output": 629
+      }
+    ],
+    "findings": [
+      {
+        "title": "Не определён момент истечения срока действия кода",
+        "scope": "set",
+        "kind": "ambiguity",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Правило определения действующего и истёкшего кода должно позволять однозначно выбрать реализацию и ожидаемый результат проверки.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Начиная с момента истечения срока код отклоняется."
+          },
+          {
+            "block": "B0002",
+            "quote": "Для действующего кода система разрешает выдачу, для истёкшего показывает отказ."
+          }
+        ],
+        "scenario": "Посылка поступила в момент t0 UTC, а сотрудник вводит код в момент t1. Текст требует различать действующий и истёкший коды, но не указывает, как определить момент истечения срока.",
+        "outcomes": [
+          "Если код ещё действующий в t1, система разрешает выдачу.",
+          "Если код истёк к t1, система показывает отказ."
+        ],
+        "consequence": "Нельзя однозначно реализовать определение статуса кода или подготовить проверку для заданного момента: ожидаемый результат зависит от отсутствующего правила истечения срока.",
+        "owner": "Владелец требований к сроку действия кода",
+        "question": "Как определяется момент истечения срока действия кода?"
+      }
+    ]
+  },
+  {
+    "id": "daeb89a017",
+    "file": "evals/holdout/parcel-b.md",
+    "sha256": "4c8a465748ea7940ac15fd00ab8ab56d1535e1025c9934e4d046890390a7c755",
+    "method": "baseline",
+    "repeat": 1,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 9.63,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1072,
+        "output": 1177
+      }
+    ],
+    "findings": [
+      {
+        "title": "Не определён момент истечения срока действия кода",
+        "scope": "set",
+        "kind": "omission",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Для реализации и проверки правила действительности кода необходимо однозначно определять момент истечения; текст задаёт последствия истечения, но не способ или параметры определения этого момента.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Начиная с момента истечения срока код отклоняется."
+          },
+          {
+            "block": "B0002",
+            "quote": "Для действующего кода система разрешает выдачу, для истёкшего показывает отказ."
+          }
+        ],
+        "scenario": "Код введён после поступления посылки, но до наступления момента истечения, который мог бы быть рассчитан по различным срокам, либо после него.",
+        "outcomes": [
+          "При одном допустимом сроке код в момент проверки ещё действителен и выдача разрешается.",
+          "При другом допустимом сроке код в тот же момент уже истёк и система отказывает."
+        ],
+        "consequence": "Нельзя выбрать правило расчёта истечения или однозначно составить тесты для перехода кода из действующего в истёкший.",
+        "owner": "Владелец правила срока действия кода",
+        "question": "Как определяется момент истечения срока действия кода?"
+      }
+    ]
+  },
+  {
+    "id": "a099d6afc6",
+    "file": "evals/holdout/parcel-b.md",
+    "sha256": "4c8a465748ea7940ac15fd00ab8ab56d1535e1025c9934e4d046890390a7c755",
+    "method": "baseline",
+    "repeat": 2,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 12.81,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1072,
+        "output": 1631
+      }
+    ],
+    "findings": [
+      {
+        "title": "Не определено, когда код считается истёкшим",
+        "scope": "set",
+        "kind": "omission",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Условие, от которого зависит выбор между выдачей и отказом, должно позволять определить ожидаемый результат для заданного момента проверки.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Начиная с момента истечения срока код отклоняется."
+          },
+          {
+            "block": "B0002",
+            "quote": "Для действующего кода система разрешает выдачу, для истёкшего показывает отказ."
+          }
+        ],
+        "scenario": "Сотрудник проверяет один и тот же код в заданный момент времени после поступления посылки, но правило или источник момента истечения не определены.",
+        "outcomes": [
+          "Код считается действующим: система разрешает выдачу.",
+          "Код считается истёкшим: система показывает отказ."
+        ],
+        "consequence": "Нельзя однозначно выбрать правило определения статуса кода или установить ожидаемый результат проверки в конкретный момент.",
+        "owner": "Владелец правила срока действия кода",
+        "question": "По какому правилу и на основании каких данных определяется момент истечения срока действия кода?"
+      }
+    ]
+  },
+  {
+    "id": "19ac28e033",
+    "file": "evals/holdout/parcel-b.md",
+    "sha256": "4c8a465748ea7940ac15fd00ab8ab56d1535e1025c9934e4d046890390a7c755",
+    "method": "baseline",
+    "repeat": 3,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 13.54,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1072,
+        "output": 1742
+      }
+    ],
+    "findings": [
+      {
+        "title": "Не определено, когда истекает срок действия кода",
+        "scope": "set",
+        "kind": "omission",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Условие, от которого зависит разрешение или отклонение выдачи, должно позволять определить ожидаемое поведение для конкретного момента времени.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "Начиная с момента истечения срока код отклоняется."
+          },
+          {
+            "block": "B0002",
+            "quote": "Для действующего кода система разрешает выдачу, для истёкшего показывает отказ."
+          }
+        ],
+        "scenario": "Посылка поступила в пункт, затем сотрудник вводит код через заданный промежуток времени после поступления.",
+        "outcomes": [
+          "Если к этому времени срок кода уже истёк, система должна показать отказ.",
+          "Если к этому времени срок кода ещё не истёк, система должна разрешить выдачу."
+        ],
+        "consequence": "Без правила или источника момента истечения нельзя определить, какой исход ожидается для введённого кода; реализация и проверочные сценарии могут по-разному классифицировать один и тот же код.",
+        "owner": "Владелец бизнес-правила срока действия кода",
+        "question": "Как определяется момент истечения срока кода относительно поступления посылки?"
+      }
+    ]
+  },
+  {
+    "id": "2989eb2211",
+    "file": "evals/holdout/refunds-a.md",
+    "sha256": "97244095b579934e32f13a31d7c95f43846b59accbf1e9b9bf887aeff6d8ea00",
+    "method": "agent",
+    "repeat": 1,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 12.21,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 555,
+        "output": 819
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1173,
+        "output": 331
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1276,
+        "output": 280
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "574f7a0368",
+    "file": "evals/holdout/refunds-a.md",
+    "sha256": "97244095b579934e32f13a31d7c95f43846b59accbf1e9b9bf887aeff6d8ea00",
+    "method": "agent",
+    "repeat": 2,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 11.71,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 555,
+        "output": 972
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1165,
+        "output": 268
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1268,
+        "output": 86
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "c09f17cbee",
+    "file": "evals/holdout/refunds-a.md",
+    "sha256": "97244095b579934e32f13a31d7c95f43846b59accbf1e9b9bf887aeff6d8ea00",
+    "method": "agent",
+    "repeat": 3,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 12.64,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 555,
+        "output": 590
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1246,
+        "output": 505
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1349,
+        "output": 218
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "410089b651",
+    "file": "evals/holdout/refunds-a.md",
+    "sha256": "97244095b579934e32f13a31d7c95f43846b59accbf1e9b9bf887aeff6d8ea00",
+    "method": "baseline",
+    "repeat": 1,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 9.78,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1132,
+        "output": 981
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "8ff80a6c3d",
+    "file": "evals/holdout/refunds-a.md",
+    "sha256": "97244095b579934e32f13a31d7c95f43846b59accbf1e9b9bf887aeff6d8ea00",
+    "method": "baseline",
+    "repeat": 2,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 5.41,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1132,
+        "output": 676
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "ecb0698006",
+    "file": "evals/holdout/refunds-a.md",
+    "sha256": "97244095b579934e32f13a31d7c95f43846b59accbf1e9b9bf887aeff6d8ea00",
+    "method": "baseline",
+    "repeat": 3,
+    "rating": {
+      "seed": null,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 8.3,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1132,
+        "output": 1028
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "7ff6eb3bc1",
+    "file": "evals/holdout/refunds-b.md",
+    "sha256": "1b7dff3f8540f6a56808f2cbaf1e980cf41d76aa81fe9167d51410d781adbc2c",
+    "method": "agent",
+    "repeat": 1,
+    "rating": {
+      "seed": true,
+      "false_blockers": 0,
+      "supported_blockers": 1,
+      "actionable_questions": 1
+    },
+    "seconds": 16.18,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 557,
+        "output": 1128
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1237,
+        "output": 554
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1607,
+        "output": 545
+      }
+    ],
+    "findings": [
+      {
+        "title": "Пример возврата расходится с правилом пересчёта",
+        "scope": "set",
+        "kind": "contradiction",
+        "severity": "blocker",
+        "impact": "both",
+        "criterion": "Для одного сценария правило пересчёта и пример должны задавать одинаковый наблюдаемый результат.",
+        "evidence": [
+          {
+            "block": "B0001",
+            "quote": "100 тиын = 1 тенге."
+          },
+          {
+            "block": "B0003",
+            "quote": "| 12345 | 1 234,50 |"
+          }
+        ],
+        "scenario": "Возврат полной суммы заказа в 12345 тиын с отображением суммы в тенге.",
+        "outcomes": [
+          "По правилу из B0001 возврат составляет 123,45 ₸.",
+          "По строке B0003 возврат составляет 1 234,50 ₸."
+        ],
+        "consequence": "Нельзя однозначно выбрать расчёт возврата и ожидаемый результат приёмочного теста; реализация и проверка могут дать несовместимые результаты.",
+        "owner": "Автор требований",
+        "question": "Какой результат возврата для суммы 12345 тиын следует считать ожидаемым?"
+      }
+    ]
+  },
+  {
+    "id": "3d84d7bbf0",
+    "file": "evals/holdout/refunds-b.md",
+    "sha256": "1b7dff3f8540f6a56808f2cbaf1e980cf41d76aa81fe9167d51410d781adbc2c",
+    "method": "agent",
+    "repeat": 2,
+    "rating": {
+      "seed": false,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 11.36,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 557,
+        "output": 692
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1208,
+        "output": 223
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1311,
+        "output": 160
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "8260951245",
+    "file": "evals/holdout/refunds-b.md",
+    "sha256": "1b7dff3f8540f6a56808f2cbaf1e980cf41d76aa81fe9167d51410d781adbc2c",
+    "method": "agent",
+    "repeat": 3,
+    "rating": {
+      "seed": false,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 17.33,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 557,
+        "output": 1106
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1258,
+        "output": 512
+      },
+      {
+        "model": "gpt-6-luna",
+        "input": 1361,
+        "output": 292
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "c8e5ef3bac",
+    "file": "evals/holdout/refunds-b.md",
+    "sha256": "1b7dff3f8540f6a56808f2cbaf1e980cf41d76aa81fe9167d51410d781adbc2c",
+    "method": "baseline",
+    "repeat": 1,
+    "rating": {
+      "seed": false,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 10.83,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1134,
+        "output": 1310
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "521e594f23",
+    "file": "evals/holdout/refunds-b.md",
+    "sha256": "1b7dff3f8540f6a56808f2cbaf1e980cf41d76aa81fe9167d51410d781adbc2c",
+    "method": "baseline",
+    "repeat": 2,
+    "rating": {
+      "seed": false,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 9.91,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1134,
+        "output": 1003
+      }
+    ],
+    "findings": []
+  },
+  {
+    "id": "08bc6c4794",
+    "file": "evals/holdout/refunds-b.md",
+    "sha256": "1b7dff3f8540f6a56808f2cbaf1e980cf41d76aa81fe9167d51410d781adbc2c",
+    "method": "baseline",
+    "repeat": 3,
+    "rating": {
+      "seed": false,
+      "false_blockers": 0,
+      "supported_blockers": 0,
+      "actionable_questions": 0
+    },
+    "seconds": 7.77,
+    "calls": [
+      {
+        "model": "gpt-6-luna",
+        "input": 1134,
+        "output": 1023
+      }
+    ],
+    "findings": []
+  }
+]
