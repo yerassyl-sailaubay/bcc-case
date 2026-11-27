@@ -6,6 +6,7 @@ from dataclasses import asdict, replace
 from openai import OpenAI
 from pydantic import ValidationError
 
+from .arithmetic import calculations
 from .schema import Baseline, Entry, Findings, Inventory
 from .source import normalize
 
@@ -28,8 +29,10 @@ COMPARE = """Проверь все отдельные требования и в
 Блокер мешает выбрать реализацию или ожидаемый результат теста. Сначала самые важные решения.
 Для каждого пробела сначала проверь, требует ли текст вообще такого поведения.
 Не требуй новых функций и правил для ситуаций за пределами явно заявленного сценария.
-Отсутствие детальной политики само по себе не блокер. Корректное граничное значение,
-конверсия единиц и явно заданное исключение не являются дефектами.
+Отсутствие детальной политики само по себе не блокер. Для каждого числового примера с явным правилом подставь вход, вычисли ожидаемое значение
+в единицах выходного столбца и сравни с указанным числом. Пробел внутри числа может разделять
+тысячи, запятая — десятичные разряды. При расхождении приведи вычисление, цитаты правила и
+примера. Проверь область действия, округление и исключения. Совпадающие значения допустимы.
 Объединяй симптомы одной причины. Пустой список допустим."""
 CRITIC = """Проверь кандидатов по первоисточнику. Попытайся согласовать каждый случай через
 разные условия, единицы, область действия, время или исключение. Удали опровергнутые
@@ -140,6 +143,11 @@ def analyze(blocks, reviewer, baseline=False):
             entry.block = batch[i].id
             inv.entries.append(entry)
     data = {"source": source, "inventory": inv.model_dump()}
+    checks = calculations(blocks)
+    if checks:
+        data["arithmetic"] = checks
+        data["arithmetic_note"] = ("Точные дроби пересчёта между столбцами. Проверь по исходному тексту, "
+                                   "представляют ли они одну величину и действует ли правило в этой строке.")
     candidates = reviewer.ask(Findings, COMPARE, data, lambda result: check_findings(result, blocks))
     data["candidates"] = candidates.model_dump()
     result = reviewer.ask(Findings, COMPARE + "\n" + CRITIC, data,

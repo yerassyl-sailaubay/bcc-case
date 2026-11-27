@@ -33,7 +33,7 @@ def organizer_variants(folder):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("split", choices=["development", "holdout", "organizer"])
+    parser.add_argument("split", choices=["development", "holdout", "organizer", "arithmetic"])
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     load_dotenv(Path.cwd() / ".env")
