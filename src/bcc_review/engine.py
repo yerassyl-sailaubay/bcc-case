@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from dataclasses import asdict, replace
 
 from openai import OpenAI
@@ -72,8 +73,13 @@ def check_inventory(inv, blocks):
     order = {b.id: i for i, b in enumerate(blocks)}
     aligned = {}
     for entry in inv.entries:
-        if entry.block not in order:
-            continue
+        if len(blocks) == 1:
+            entry.block = blocks[0].id
+        elif entry.block not in order:
+            references = set(re.findall(r"\bB[0-9]+\b", entry.block))
+            if len(references) != 1 or not references.issubset(order):
+                continue
+            entry.block = references.pop()
         current = aligned.setdefault(entry.block, entry)
         if current is not entry:
             known = {claim.statement for claim in current.claims}

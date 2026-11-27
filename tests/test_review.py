@@ -124,3 +124,11 @@ def test_input_cannot_be_used_as_report(tmp_path, monkeypatch):
     with pytest.raises(SystemExit):
         cli.main()
     assert path.read_text() == "Исходное требование"
+
+
+def test_inventory_accepts_address_with_location():
+    blocks = read_blocks(Path("evals/development/transfers-a.md"))
+    inv = Inventory(entries=[Entry(block=f"{b.id} — {b.location}", role="evidence", claims=[]) for b in blocks])
+    check_inventory(inv, blocks)
+    assert all(e.role == "evidence" for e in inv.entries)
+    assert [e.block for e in inv.entries] == [b.id for b in blocks]
