@@ -1,0 +1,18 @@
+[project]
+name = "bcc-review"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["openai>=2,<3","pydantic>=2,<3","python-dotenv>=1,<2","markdown-it-py>=3,<5","pymupdf>=1.25,<2"]
+
+[project.scripts]
+validator = "bcc_review.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bcc_review"]
