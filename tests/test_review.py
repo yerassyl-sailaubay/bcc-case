@@ -89,6 +89,34 @@ def test_rejects_false_evidence():
         check_findings(Findings(findings=[single_contradiction]), blocks)
 
 
+def test_citation_preserves_literal_identifiers():
+    blocks = read_blocks(CASE)
+    card_block = next(b for b in blocks if "card_id" in b.text)
+    bad = Finding(title="t", scope="individual", kind="ambiguity", severity="major", impact="both",
+                  criterion="c", evidence=[Citation(block=card_block.id, quote="cardid")],
+                  scenario="s", outcomes=["x", "y"], consequence="c", owner="o", question="q")
+    with pytest.raises(ValueError, match="Цитата не найдена"):
+        check_findings(Findings(findings=[bad]), blocks)
+
+    ok = Finding(title="t", scope="individual", kind="ambiguity", severity="major", impact="both",
+                 criterion="c", evidence=[Citation(block=card_block.id, quote="card_id")],
+                 scenario="s", outcomes=["x", "y"], consequence="c", owner="o", question="q")
+    check_findings(Findings(findings=[ok]), blocks)
+
+
+def test_readiness_surfaces_major_risks_when_no_blockers():
+    blocks = read_blocks(Path("evals/development/transfers-a.md"))
+    inv = Inventory(entries=[Entry(block=b.id, role="template", claims=[]) for b in blocks])
+    only_major = Findings(findings=[
+        Finding(title="Major omission", scope="individual", kind="omission", severity="major", impact="both",
+                criterion="c", evidence=[Citation(block=blocks[0].id, quote=blocks[0].text[:12])],
+                scenario="s", outcomes=["a", "b"], consequence="c", owner="o", question="Q?")
+    ])
+    passport = dict(document="doc.md", date="2026-11-27", model="m", version="v", sha256="0", seconds=1.0)
+    rendered = render(blocks, inv, only_major, passport)
+    assert "есть существенные риски D001" in rendered
+
+
 def test_inventory_strips_synthetic_block_ids_and_template_claims():
     blocks = read_blocks(Path("evals/development/transfers-a.md"))
     inv = Inventory(entries=[

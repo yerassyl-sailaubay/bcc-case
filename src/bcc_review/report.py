@@ -24,7 +24,13 @@ def render(blocks, inventory, result, passport):
     lines = [f"# Проверка требований — {passport['document']}", "", "## Готовность", ""]
     for key, label in [("development", "Разработка"), ("testing", "Тестирование")]:
         relevant = [i for i, f in findings if f.impact in (key, "both") and f.severity == "blocker"]
-        verdict = "требует решения " + ", ".join(relevant) if relevant else "подтверждённых блокеров не выявлено"
+        majors = [i for i, f in findings if f.impact in (key, "both") and f.severity == "major"]
+        if relevant:
+            verdict = "требует решения " + ", ".join(relevant)
+        elif majors:
+            verdict = "подтверждённых блокеров не выявлено; есть существенные риски " + ", ".join(majors)
+        else:
+            verdict = "подтверждённых блокеров не выявлено"
         if unresolved:
             verdict += ". Оценка частичная, требуется разбор " + ", ".join(unresolved)
         lines.append(f"- **{label}** — {verdict}.")
