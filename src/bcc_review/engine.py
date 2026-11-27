@@ -227,9 +227,11 @@ def _extract_batch(batch, reviewer):
     return entries
 
 
-def analyze(blocks, reviewer, baseline=False):
+def analyze(blocks, reviewer, baseline=False, on_progress=None):
+    emit = on_progress or (lambda _msg: None)
     source = [asdict(b) for b in blocks]
     if baseline:
+        emit(f"[2/2] Однопроходный анализ ({len(blocks)} блоков, модель {reviewer.model})...")
         def check(result):
             check_inventory(result.inventory, blocks)
             check_findings(result.review, blocks)
@@ -237,6 +239,7 @@ def analyze(blocks, reviewer, baseline=False):
         return result.inventory, result.review
 
     batches = [blocks[start:start + BATCH_SIZE] for start in range(0, len(blocks), BATCH_SIZE)]
+    emit(f"[2/4] Извлечение реестра требований ({len(batches)} пакет., модель {reviewer.model})...")
     inv = Inventory(entries=[])
     if len(batches) == 1:
         inv.entries.extend(_extract_batch(batches[0], reviewer))
@@ -252,8 +255,10 @@ def analyze(blocks, reviewer, baseline=False):
         data["arithmetic_note"] = ("Точные дроби пересчёта между столбцами. Проверь по исходному тексту, "
                                    "представляют ли они одну величину, действует ли явное правило округления "
                                    "и применимо ли правило в этой строке.")
+    emit("[3/4] Сквозная проверка требований и контрактов...")
     candidates = reviewer.ask(Findings, COMPARE, data, lambda result: check_findings(result, blocks))
     data["candidates"] = candidates.model_dump()
+    emit("[4/4] Критическая верификация и контроль цитат...")
     result = reviewer.ask(Findings, COMPARE + "\n" + CRITIC, data,
                           lambda result: check_findings(result, blocks))
     return inv, result

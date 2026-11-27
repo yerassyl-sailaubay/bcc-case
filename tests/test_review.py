@@ -159,12 +159,13 @@ def test_fixtures():
         assert read_blocks(Path(right["file"]))
 
 
-def test_pipeline_without_network(monkeypatch, tmp_path):
+def test_pipeline_without_network(monkeypatch, tmp_path, capsys):
     class Stub:
-        calls = [{"model":"test"}]
+        model = "test"
+        calls = [{"model": "test"}]
         def ask(self, schema, instruction, data, check):
             if schema is Inventory:
-                result = Inventory(entries=[Entry(block=b["id"],role="requirement", claims=[
+                result = Inventory(entries=[Entry(block=b["id"], role="requirement", claims=[
                     dict(original_id="", statement=b["text"], assessment="Проверяемо.")
                 ]) for b in data])
             else:
@@ -175,7 +176,11 @@ def test_pipeline_without_network(monkeypatch, tmp_path):
     monkeypatch.setenv("OPENAI_API_KEY", "test-only")
     path = Path("evals/development/transfers-a.md")
     out, audit = tmp_path / "report.md", tmp_path / "run.json"
-    cli.run(path, out, audit)
+    monkeypatch.setattr("sys.argv", ["validator", "review", str(path), "--out", str(out), "--audit", str(audit)])
+    assert cli.main() == 0
+    captured = capsys.readouterr()
+    assert "[1/4]" in captured.err and "[4/4]" in captured.err
+    assert "Готово за" in captured.out and "подтверждённых блокеров не выявлено" in captured.out
     assert "Реестр" in out.read_text() and "R001" in out.read_text()
     assert json.loads(audit.read_text())["passport"]["model"] == "test"
 
