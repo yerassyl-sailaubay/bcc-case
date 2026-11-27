@@ -1,12 +1,28 @@
 """Check explicit unit equalities against numeric columns; interpretation stays with the reviewer."""
+from decimal import Decimal
 from fractions import Fraction
-from itertools import permutations
+from itertools import combinations
 import re
 
 NUMBER = r"[-+]?(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})+|\d+)(?:[.,]\d+)?"
 UNIT = r"(?:[^\W\d_]+|[₸€$₽])"
 RATE = re.compile(rf"(?<![\w.,])({NUMBER})\s*({UNIT})\s*=\s*({NUMBER})\s*({UNIT})(?!\w)")
-ALIASES = {"₸": "тенге", "kzt": "тенге", "€": "евро"}
+CELL_VALUE = re.compile(rf"({NUMBER})(?:\s*({UNIT}))?")
+ALIASES = {
+    "₸": "тенге", "kzt": "тенге", "тенге": "тенге",
+    "тиын": "тиын", "тиына": "тиын", "тиынов": "тиын", "тиынах": "тиын", "тиыны": "тиын", "тийын": "тиын", "tiyn": "тиын",
+    "€": "евро", "eur": "евро", "евро": "евро",
+    "$": "доллар", "usd": "доллар", "доллар": "доллар", "доллара": "доллар", "долларов": "доллар",
+    "₽": "рубль", "rub": "рубль", "руб": "рубль", "рубль": "рубль", "рубля": "рубль", "рублей": "рубль",
+    "с": "сек", "сек": "сек", "секунда": "сек", "секунды": "сек", "секунд": "сек", "секундах": "сек",
+    "мин": "мин", "минута": "мин", "минуты": "мин", "минут": "мин", "минутах": "мин",
+    "ч": "час", "час": "час", "часа": "час", "часов": "час", "часах": "час",
+    "д": "день", "дн": "день", "день": "день", "дня": "день", "дней": "день", "сут": "день", "сутки": "день", "суток": "день",
+    "г": "г", "гр": "г", "грамм": "г", "грамма": "г", "граммов": "г",
+    "кг": "кг", "килограмм": "кг", "килограмма": "кг", "килограммов": "кг",
+    "м": "м", "метр": "м", "метра": "м", "метров": "м",
+    "км": "км", "километр": "км", "километра": "км", "километров": "км",
+}
 
 
 def unit_key(text):
@@ -15,6 +31,18 @@ def unit_key(text):
 
 def number(text):
     return Fraction("".join(text.split()).replace(",", "."))
+
+
+def format_decimal(value: Fraction) -> str:
+    denom = value.denominator
+    while denom % 2 == 0:
+        denom //= 2
+    while denom % 5 == 0:
+        denom //= 5
+    if denom == 1:
+        dec = Decimal(value.numerator) / Decimal(value.denominator)
+        return format(dec.normalize(), "f")
+    return f"{float(value):.6g}"
 
 
 def calculations(blocks):
@@ -36,16 +64,28 @@ def calculations(blocks):
         cells = row.text.strip().strip("|").split("|")
         if len(header) != len(cells):
             continue
-        columns = [(h.strip(), {unit_key(u) for u in re.findall(UNIT, h)}, number(v.strip()))
-                   for h, v in zip(header, cells) if re.fullmatch(NUMBER, v.strip())]
-        for first, second in permutations(columns, 2):
+        columns = []
+        for h, v in zip(header, cells):
+            m = CELL_VALUE.fullmatch(v.strip())
+            if not m:
+                continue
+            units = {unit_key(u) for u in re.findall(UNIT, h)}
+            if m.group(2):
+                units.add(unit_key(m.group(2)))
+            columns.append((h.strip(), units, number(m.group(1))))
+        for first, second in combinations(columns, 2):
             for rule, quote, src, dst, factor in rates:
-                if src not in first[1] or dst not in second[1]:
+                if src in first[1] and dst in second[1]:
+                    applied = factor
+                elif dst in first[1] and src in second[1]:
+                    applied = Fraction(1, 1) / factor
+                else:
                     continue
-                expected = first[2] * factor
+                expected = first[2] * applied
                 comparisons.append(dict(rule=rule, equality=quote, row=row.id,
                                         input_column=first[0], output_column=second[0],
                                         input=str(first[2]), expected_exact=str(expected),
+                                        expected_decimal=format_decimal(expected),
                                         stated_exact=str(second[2]), equal=expected == second[2]))
                 if len(comparisons) >= 100:
                     return comparisons

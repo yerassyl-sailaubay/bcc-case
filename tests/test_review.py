@@ -16,6 +16,8 @@ def test_real_source():
     row = next(b for b in blocks if "Февральский счётчик" in b.text)
     assert "Ожидаемый результат" in row.context
     assert "Критерии приемки" in row.context
+    assert not any(b.text.strip().startswith("| Поле | Значение |") for b in blocks)
+    assert not any(b.text.strip().startswith("| Исходные условия |") for b in blocks)
     example = next(b for b in blocks if '"result":"ERROR"' in b.text)
     assert "Successful" in example.context
     assert len(blocks) == len({b.id for b in blocks})
@@ -61,21 +63,63 @@ def test_cli_failure(mode, monkeypatch, tmp_path):
         monkeypatch.setattr(cli, "analyze", interrupted)
     monkeypatch.setattr("sys.argv", ["validator", "review", str(path), "--out", str(out)])
     assert cli.main() == 1
-    assert "не завершена" in out.read_text()
-    assert "Готовность" not in out.read_text()
-    assert "sensitive input" not in out.read_text()
+    body = out.read_text()
+    assert "не завершена" in body
+    assert "Готовность" not in body
+    assert "sensitive input" not in body
+    if mode == "damaged":
+        assert "повреждён" in body
+        assert "Failed to open" not in body
+        assert str(tmp_path) not in body
 
 
 def test_rejects_false_evidence():
     blocks = read_blocks(CASE)
-    f = Finding(title="t",scope="set",kind="contradiction",severity="blocker",impact="both",
-                criterion="c",evidence=[Citation(block=blocks[0].id,quote="fabricated")],
-                scenario="s",outcomes=["x","y"],consequence="c",owner="o",question="q")
+    fabricated = Finding(title="t", scope="individual", kind="ambiguity", severity="major", impact="both",
+                         criterion="c", evidence=[Citation(block=blocks[0].id, quote="fabricated quote")],
+                         scenario="s", outcomes=["x", "y"], consequence="c", owner="o", question="q")
+    with pytest.raises(ValueError, match="Цитата не найдена"):
+        check_findings(Findings(findings=[fabricated]), blocks)
+    assert fabricated.evidence[0].quote == "fabricated quote"
+
+    single_contradiction = Finding(title="t", scope="set", kind="contradiction", severity="blocker", impact="both",
+                                   criterion="c", evidence=[Citation(block=blocks[0].id, quote=blocks[0].text[:20])],
+                                   scenario="s", outcomes=["x", "y"], consequence="c", owner="o", question="q")
     with pytest.raises(ValueError, match="двух"):
-        check_findings(Findings(findings=[f]), blocks)
-    assert f.evidence[0].quote == blocks[0].text
-    with pytest.raises(ValueError, match="двух"):
-        check_findings(Findings(findings=[f]), blocks)
+        check_findings(Findings(findings=[single_contradiction]), blocks)
+
+
+def test_inventory_strips_synthetic_block_ids_and_template_claims():
+    blocks = read_blocks(Path("evals/development/transfers-a.md"))
+    inv = Inventory(entries=[
+        Entry(block=blocks[0].id, role="requirement", claims=[
+            dict(original_id="B0001", statement="s1", assessment="a1"),
+            dict(original_id="Ф-1", statement="s2", assessment="a2"),
+        ]),
+        *[Entry(block=b.id, role="template", claims=[
+            dict(original_id="", statement="ignored template", assessment="meta")
+        ]) for b in blocks[1:]],
+    ])
+    check_inventory(inv, blocks)
+    assert inv.entries[0].claims[0].original_id == ""
+    assert inv.entries[0].claims[1].original_id == "Ф-1"
+    assert all(e.claims == [] for e in inv.entries[1:])
+
+
+def test_render_shows_all_blockers_in_top_decisions():
+    blocks = read_blocks(Path("evals/development/transfers-a.md"))
+    inv = Inventory(entries=[Entry(block=b.id, role="template", claims=[]) for b in blocks])
+    five_blockers = Findings(findings=[
+        Finding(title=f"Blocker {i}", scope="set", kind="contradiction", severity="blocker", impact="both",
+                criterion="c", evidence=[Citation(block=blocks[0].id, quote=blocks[0].text[:12])],
+                scenario="s", outcomes=["a", "b"], consequence="c", owner="o", question=f"Q{i}?")
+        for i in range(1, 6)
+    ])
+    passport = dict(document="doc.md", date="2026-11-27", model="m", version="v", sha256="0", seconds=1.0)
+    rendered = render(blocks, inv, five_blockers, passport)
+    top_section = rendered.split("## Первые решения", 1)[1].split("## Сводка и паспорт", 1)[0]
+    for code in ("D001", "D002", "D003", "D004", "D005"):
+        assert code in top_section
 
 
 def test_fixtures():

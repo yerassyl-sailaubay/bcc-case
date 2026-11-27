@@ -22,9 +22,15 @@ def read_blocks(path: Path) -> list[Block]:
             blocks.append(Block(f"B{len(blocks) + 1:04}", location, context, text.strip()))
 
     if path.suffix.lower() == ".pdf":
-        with pymupdf.open(path) as pdf:
+        try:
+            pdf = pymupdf.open(path)
+        except Exception as exc:
+            raise ValueError("Не удалось открыть PDF: файл повреждён или не является корректным документом PDF.") from exc
+        with pdf:
             if pdf.needs_pass:
                 raise ValueError("PDF защищён паролем.")
+            if len(pdf) == 0:
+                raise ValueError("PDF не содержит страниц.")
             for number, page in enumerate(pdf, 1):
                 parts = page.get_text("blocks", sort=True)
                 if not any(p[6] == 0 and p[4].strip() for p in parts):
@@ -37,7 +43,16 @@ def read_blocks(path: Path) -> list[Block]:
         lines = text.splitlines()
         headings = []
         header = ""
+        in_thead = False
         for token in MarkdownIt("commonmark").enable("table").parse(text):
+            if token.type == "thead_open":
+                in_thead = True
+                if token.map:
+                    header = lines[token.map[0]]
+                continue
+            if token.type == "thead_close":
+                in_thead = False
+                continue
             if not token.map:
                 continue
             start, end = token.map
@@ -46,11 +61,11 @@ def read_blocks(path: Path) -> list[Block]:
                 level = int(token.tag[1:])
                 headings = [(n, h) for n, h in headings if n < level]
                 headings.append((level, raw.strip("# ")))
-            if token.type == "thead_open":
-                header = lines[start]
+            if token.type == "tr_open" and in_thead:
+                continue
             if token.type in {"paragraph_open", "tr_open", "fence", "code_block", "html_block"}:
                 context = " / ".join(h for _, h in headings)
-                if token.type == "tr_open" and raw != header:
+                if token.type == "tr_open" and header:
                     context += " | " + header
                 add(f"строки {start + 1}–{end}", context, raw)
     else:

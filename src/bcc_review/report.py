@@ -11,7 +11,15 @@ def render(blocks, inventory, result, passport):
     ordered = sorted(result.findings, key=lambda f: rank[f.severity])
     findings = [(f"D{i:03}", f) for i, f in enumerate(ordered, 1)]
     severity = {"blocker": "блокер", "major": "существенный", "minor": "замечание"}
+    kind_label = {
+        "contradiction": "противоречие",
+        "omission": "пропуск",
+        "ambiguity": "неоднозначность",
+        "unverifiable": "непроверяемость",
+        "other": "прочее",
+    }
     unresolved = [e.block for e in inventory.entries if e.role == "unresolved"]
+    template_count = sum(1 for e in inventory.entries if e.role == "template")
     claims = [(e.block, c) for e in inventory.entries for c in e.claims]
     lines = [f"# Проверка требований — {passport['document']}", "", "## Готовность", ""]
     for key, label in [("development", "Разработка"), ("testing", "Тестирование")]:
@@ -21,8 +29,10 @@ def render(blocks, inventory, result, passport):
             verdict += ". Оценка частичная, требуется разбор " + ", ".join(unresolved)
         lines.append(f"- **{label}** — {verdict}.")
     lines.extend(["", "## Первые решения", ""])
-    for i, f in findings[:3]:
-        lines += [f"**{i}. {f.title}**", "", f"{f.scenario} {' / '.join(f.outcomes)}",
+    top_decisions = [item for item in findings if item[1].severity == "blocker"] or findings[:3]
+    for i, f in top_decisions:
+        lines += [f"**{i}. {f.title}** ({severity[f.severity]} · {kind_label[f.kind]})", "",
+                  f"{f.scenario} {' / '.join(f.outcomes)}",
                   "", f"{f.consequence}", "", f"**{f.owner}** — {f.question}", ""]
         for c in f.evidence:
             lines.append(f"- {c.block}, {sources[c.block].location} — «{cell(c.quote)}»")
@@ -31,7 +41,8 @@ def render(blocks, inventory, result, passport):
         lines.append("Вопросов по подтверждённым нарушениям нет.")
     counts = Counter(f.severity for _, f in findings)
     lines += ["", "## Сводка и паспорт", "",
-              f"Требований: {len(claims)}. Нарушений: {len(findings)}. Блокеров: {counts['blocker']}. "
+              f"Требований: {len(claims)} (проанализировано блоков: {len(blocks)}, шаблон/метаданные: {template_count}). "
+              f"Нарушений: {len(findings)}. Блокеров: {counts['blocker']}. "
               f"Существенных: {counts['major']}. Замечаний: {counts['minor']}.",
               "", f"Критичные дефекты: {', '.join(i for i, f in findings if f.severity == 'blocker') or 'нет'}.",
               "", f"Дата: {passport['date']}. Модель: {passport['model']}. Версия: {passport['version']}.",
@@ -51,15 +62,16 @@ def render(blocks, inventory, result, passport):
         for i, f in findings:
             if f.scope != scope:
                 continue
-            lines += [f"### {i}. {f.title}", "", f"**{severity[f.severity]}** · {f.criterion}", "",
+            lines += [f"### {i}. {f.title}", "", f"**{severity[f.severity]} · {kind_label[f.kind]}** · {f.criterion}", "",
                       f.scenario, "", *[f"- {o}" for o in f.outcomes], "", f.consequence, "",
                       f"**Вопрос ({f.owner})** — {f.question}", ""]
             for c in f.evidence:
                 b = sources[c.block]
                 lines.append(f"- {b.id}, {b.location}, {cell(b.context)} — «{cell(c.quote)}»")
     lines.extend(["", "## Источники требований", ""])
+    referenced = {bid for bid, _ in claims} | {c.block for _, f in findings for c in f.evidence}
     for b in blocks:
-        if any(b.id == bid for bid, _ in claims):
+        if b.id in referenced:
             lines.append(f"- {b.id}, {b.location} — {cell(b.text)}")
     return "\n".join(lines) + "\n"
 
