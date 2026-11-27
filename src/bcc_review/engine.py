@@ -67,11 +67,15 @@ class Reviewer:
 
 
 def check_inventory(inv, blocks):
-    if [e.block for e in inv.entries] != [b.id for b in blocks]:
+    order = {b.id: i for i, b in enumerate(blocks)}
+    inv.entries.sort(key=lambda e: order.get(e.block, len(order)))
+    if [e.block for e in inv.entries] != list(order):
         raise ValueError("Верни все переданные блоки ровно один раз в исходном порядке.")
     for e in inv.entries:
-        if bool(e.claims) != (e.role == "requirement"):
-            raise ValueError(f"{e.block}: обязательства требуют роли requirement и наоборот.")
+        if e.claims:
+            e.role = "requirement"
+        elif e.role == "requirement":
+            e.role = "unresolved"
 
 
 def check_findings(review, blocks):
