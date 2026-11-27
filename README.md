@@ -10,6 +10,13 @@
 2. Откройте [результат повторного прогона](submission/corrected-report.md). В копии входного документа изменено одно слово: «Февральский» → «Январский».
 3. Сверьте выводы на двух версиях. В [оценке](evals/README.md) отдельно приведены пропуски, ложные блокеры и сравнение с однопроходным запросом.
 
+Повторить исправление из видео можно из корня репозитория:
+
+```sh
+sed 's/Февральский счётчик вырос/Январский счётчик вырос/' submission/requirements.md > organizer-corrected.md
+uv run --locked validator review organizer-corrected.md --out corrected-report.md
+```
+
 ## Запуск
 
 Установите Python 3.11+ и [uv](https://docs.astral.sh/uv/getting-started/installation/). Создайте ключ в [OpenAI Platform](https://platform.openai.com/api-keys) с доступом к Responses API и модели. Из корня репозитория:
@@ -48,4 +55,3 @@ uv run --locked python evals/benchmark.py holdout --out evaluation-runs/holdout
 Вторая команда выполняет платные запросы к API. Без сетевого доступа тесты проверяют парсер, контроль доказательств, ошибки входа и сборку отчёта на тестовом ответе. Версия агента, хеш входа и имя модели записываются в паспорт. Формулировки и число выводов могут отличаться между запусками.
 
 Исходный документ взят из [задания организаторов, ревизия 928c1aa](https://github.com/BCC-HUB/ai-requirements-validator-task/blob/928c1aa364265426105b69ba7a3444eac11b22db/docs/requirements.md).
-
